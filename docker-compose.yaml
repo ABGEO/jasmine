@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+  traefik:
+    image: "traefik:v2.10"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  emqx:
+    image: emqx/emqx:5.5
+    ports:
+      - "1883:1883"
+      - "8083:8083"
+      - "8084:8084"
+      - "8883:8883"
+    volumes:
+      - "emqx_data:/opt/emqx/data"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.emqx.rule=Host(`emqx.jasmine.localhost`)"
+      - "traefik.http.services.emqx.loadbalancer.server.port=18083"
+
+  mqttx-web:
+    image: emqx/mqttx-web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mqttx.rule=Host(`mqttx.jasmine.localhost`)"
+      - "traefik.http.services.mqttx.loadbalancer.server.port=80"
+
+  grafana:
+    image: grafana/grafana
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.jasmine.localhost`)"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+
+  influxdb:
+    image: influxdb:2.7
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: app
+      DOCKER_INFLUXDB_INIT_PASSWORD: password
+      DOCKER_INFLUXDB_INIT_ORG: org
+      DOCKER_INFLUXDB_INIT_BUCKET: main
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: my-super-secret-auth-token
+    ports:
+      - "8086:8086"
+    volumes:
+      - "influx_data:/var/lib/influxdb2"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.influxdb.rule=Host(`influxdb.jasmine.localhost`)"
+      - "traefik.http.services.influxdb.loadbalancer.server.port=8086"
+
+volumes:
+  influx_data:
+    driver: local
+  emqx_data:
+    driver: local
