@@ -1,5 +1,8 @@
 package model
 
+import "time"
+
 type SensorReading struct {
-	Value any `json:"value"`
+	Time  time.Time `json:"time"`
+	Value any       `json:"value"`
 }

@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
-	"time"
 
 	"github.com/abgeo/jasmine/packages/flora-bridge/config"
 	"github.com/abgeo/jasmine/packages/flora-bridge/model"
@@ -98,7 +97,7 @@ func (proc *MeasurementProcessor) storeSensorReading(
 		proc.config.InfluxDB.Bucket,
 	)
 	point := influxdb2.NewPointWithMeasurement(measurement).
-		SetTime(time.Now()).
+		SetTime(data.Time).
 		AddTag("pid", pid).
 		AddField("value", data.Value)
 
