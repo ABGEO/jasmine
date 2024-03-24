@@ -38,7 +38,11 @@ func Run(params Params, lc fx.Lifecycle) error {
 						zap.String("topic", proc.Topic()),
 					)
 
-					params.MQTTClient.Subscribe(proc.Topic(), defaultQoS, proc.Handler)
+					params.MQTTClient.Subscribe(
+						fmt.Sprintf("$share/flora-bridge-%s/%s", params.Config.Env, proc.Topic()),
+						defaultQoS,
+						proc.Handler,
+					)
 				}
 			}()
 
