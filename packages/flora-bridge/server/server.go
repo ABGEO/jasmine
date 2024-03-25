@@ -10,12 +10,16 @@ import (
 	"github.com/abgeo/jasmine/packages/flora-bridge/route"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
+	healthcheck "github.com/tavsec/gin-healthcheck"
+	"github.com/tavsec/gin-healthcheck/checks"
+	healthcheckConfig "github.com/tavsec/gin-healthcheck/config"
 	"go.uber.org/zap"
 )
 
 func New(
 	env string,
 	routes []route.IRoute,
+	healthCheckers []checks.Check,
 	conf *config.Config,
 	logger *zap.Logger,
 ) (*http.Server, error) {
@@ -36,6 +40,11 @@ func New(
 
 	engine.Use(ginzap.Ginzap(logger, time.RFC3339, true))
 	engine.Use(ginzap.RecoveryWithZap(logger, true))
+
+	err := healthcheck.New(engine, healthcheckConfig.DefaultConfig(), healthCheckers)
+	if err != nil {
+		return nil, fmt.Errorf("unable to setup healthcheck: %w", err)
+	}
 
 	route.RegisterRoutes(engine, routes...)
 

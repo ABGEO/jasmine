@@ -4,6 +4,7 @@ import (
 	"github.com/abgeo/jasmine/packages/flora-bridge/broker"
 	"github.com/abgeo/jasmine/packages/flora-bridge/config"
 	"github.com/abgeo/jasmine/packages/flora-bridge/controller"
+	"github.com/abgeo/jasmine/packages/flora-bridge/healthchecker"
 	"github.com/abgeo/jasmine/packages/flora-bridge/processor"
 	"github.com/abgeo/jasmine/packages/flora-bridge/route"
 	"github.com/abgeo/jasmine/packages/flora-bridge/server"
@@ -28,10 +29,11 @@ func Provide() fx.Option {
 			config.New,
 			fx.Annotate(
 				server.New,
-				fx.ParamTags(`name:"env"`, `group:"routes"`),
+				fx.ParamTags(`name:"env"`, `group:"routes"`, `group:"healthcheckers"`),
 			),
 		),
 		controller.Provide(),
+		healthchecker.Provide(),
 		processor.Provide(),
 		route.Provide(),
 	)
