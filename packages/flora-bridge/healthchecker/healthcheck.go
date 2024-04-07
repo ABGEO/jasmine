@@ -18,5 +18,6 @@ func AsHealthChecker(fc any, annotations ...fx.Annotation) any {
 func Provide() fx.Option {
 	return fx.Provide(
 		AsHealthChecker(NewInfluxHealthChecker),
+		AsHealthChecker(NewPostgresHealthChecker),
 	)
 }

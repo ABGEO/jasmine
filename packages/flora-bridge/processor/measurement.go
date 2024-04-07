@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/abgeo/jasmine/packages/flora-bridge/config"
-	"github.com/abgeo/jasmine/packages/flora-bridge/model"
+	"github.com/abgeo/jasmine/packages/flora-bridge/dto"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
 	"go.uber.org/zap"
@@ -76,8 +76,8 @@ func (proc *MeasurementProcessor) Handler(_ mqtt.Client, msg mqtt.Message) {
 	}
 }
 
-func (proc *MeasurementProcessor) parseSensorReading(rawData []byte) (*model.SensorReading, error) {
-	var data model.SensorReading
+func (proc *MeasurementProcessor) parseSensorReading(rawData []byte) (*dto.SensorReading, error) {
+	var data dto.SensorReading
 
 	if err := json.Unmarshal(rawData, &data); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal sensor readings: %w", err)
@@ -89,7 +89,7 @@ func (proc *MeasurementProcessor) parseSensorReading(rawData []byte) (*model.Sen
 func (proc *MeasurementProcessor) storeSensorReading(
 	ctx context.Context,
 	topic string,
-	data *model.SensorReading,
+	data *dto.SensorReading,
 ) error {
 	measurement, pid := proc.parseTopic(topic)
 	writeAPI := proc.influxClient.WriteAPIBlocking(

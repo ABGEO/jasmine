@@ -26,12 +26,21 @@ type MQTTConfig struct {
 	Password string `mapstructure:"MQTT_PASSWORD"`
 }
 
+type DatabaseConfig struct {
+	Host     string `mapstructure:"DB_HOST"`
+	User     string `mapstructure:"DB_USER"`
+	Password string `mapstructure:"DB_PASSWORD"`
+	Database string `mapstructure:"DB_NAME"`
+	Port     string `mapstructure:"DB_PORT"`
+}
+
 type Config struct {
 	Env string `mapstructure:"ENV" default:"local"`
 
 	InfluxDB InfluxDBConfig `mapstructure:",squash"`
 	Server   ServerConfig   `mapstructure:",squash"`
 	MQTT     MQTTConfig     `mapstructure:",squash"`
+	Database DatabaseConfig `mapstructure:",squash"`
 }
 
 func New() (*Config, error) {

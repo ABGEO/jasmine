@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/abgeo/jasmine/packages/flora-bridge/config"
+	"github.com/abgeo/jasmine/packages/flora-bridge/migrator"
 	"github.com/abgeo/jasmine/packages/flora-bridge/processor"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"go.uber.org/fx"
@@ -18,6 +19,7 @@ type Params struct {
 
 	Server     *http.Server
 	Processors []processor.Processor `group:"processors"`
+	Migrators  []migrator.IMigrator  `group:"migrators"`
 	Config     *config.Config
 	Logger     *zap.Logger
 	MQTTClient mqtt.Client
@@ -31,6 +33,11 @@ func Run(params Params, lc fx.Lifecycle) error {
 
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
+			go func() {
+				params.Logger.Info("running migrations")
+				migrator.Migrate(params.Logger, params.Migrators...)
+			}()
+
 			go func() {
 				for _, proc := range params.Processors {
 					params.Logger.Debug(

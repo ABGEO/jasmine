@@ -17,6 +17,21 @@ linters-settings:
     ignore-names:
       - i
 
+  wrapcheck:
+    ignoreSigs:
+      # Default Sigs.
+      - .Errorf(
+      - errors.New(
+      - errors.Unwrap(
+      - .Wrap(
+      - .Wrapf(
+      - .WithMessage(
+      - .WithMessagef(
+      - .WithStack(
+      # Custom Sigs.
+      - .Marshal(
+      - .AutoMigrate(
+
 linters:
   enable-all: true
   disable:
