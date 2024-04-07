@@ -34,6 +34,11 @@ type DatabaseConfig struct {
 	Port     string `mapstructure:"DB_PORT"`
 }
 
+type OIDCConfig struct {
+	Issuer   string `mapstructure:"OIDC_ISSUER" default:"https://accounts.google.com"`
+	ClientID string `mapstructure:"OIDC_CLIENT_ID"`
+}
+
 type Config struct {
 	Env string `mapstructure:"ENV" default:"local"`
 
@@ -41,6 +46,7 @@ type Config struct {
 	Server   ServerConfig   `mapstructure:",squash"`
 	MQTT     MQTTConfig     `mapstructure:",squash"`
 	Database DatabaseConfig `mapstructure:",squash"`
+	OIDC     OIDCConfig     `mapstructure:",squash"`
 }
 
 func New() (*Config, error) {

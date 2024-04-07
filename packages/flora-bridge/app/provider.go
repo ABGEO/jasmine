@@ -8,6 +8,7 @@ import (
 	"github.com/abgeo/jasmine/packages/flora-bridge/config"
 	"github.com/abgeo/jasmine/packages/flora-bridge/controller"
 	"github.com/abgeo/jasmine/packages/flora-bridge/healthchecker"
+	"github.com/abgeo/jasmine/packages/flora-bridge/middleware"
 	"github.com/abgeo/jasmine/packages/flora-bridge/migrator"
 	"github.com/abgeo/jasmine/packages/flora-bridge/processor"
 	"github.com/abgeo/jasmine/packages/flora-bridge/repository"
@@ -43,13 +44,13 @@ func provideEnv(conf *config.Config) string {
 	return conf.Env
 }
 
-func provideDatabase(config *config.Config) (*gorm.DB, error) {
+func provideDatabase(conf *config.Config) (*gorm.DB, error) {
 	url := fmt.Sprintf(
 		"postgres://%s:%s@%s/%s",
-		config.Database.User,
-		config.Database.Password,
-		net.JoinHostPort(config.Database.Host, config.Database.Port),
-		config.Database.Database,
+		conf.Database.User,
+		conf.Database.Password,
+		net.JoinHostPort(conf.Database.Host, conf.Database.Port),
+		conf.Database.Database,
 	)
 	gormConfig := gorm.Config{}
 
@@ -79,6 +80,7 @@ func Provide() fx.Option {
 		),
 		controller.Provide(),
 		healthchecker.Provide(),
+		middleware.Provide(),
 		migrator.Provide(),
 		processor.Provide(),
 		repository.Provide(),
