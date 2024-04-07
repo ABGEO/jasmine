@@ -1,0 +1,17 @@
+SET(SOURCES screens/ui_WelcomeScreen.c
+    screens/ui_MainScreen.c
+    ui.c
+    components/ui_comp_hook.c
+    ui_helpers.c
+    ui_events.c
+    images/ui_img_thermometer_fill0_wght400_grad0_opsz24_png.c
+    images/ui_img_humidity_indoor_fill0_wght400_grad0_opsz24_png.c
+    images/ui_img_humidity_percentage_fill0_wght400_grad0_opsz24_png.c
+    images/ui_img_lightbulb_fill0_wght400_grad0_opsz24_png.c
+    images/ui_img_straighten_fill0_wght400_grad0_opsz24_png.c
+    images/ui_img_wifi_off_fill0_wght400_grad0_opsz24_png.c
+    images/ui_img_link_off_fill0_wght400_grad0_opsz24_png.c
+    images/ui_img_link_fill0_wght400_grad0_opsz24_png.c
+    images/ui_img_wifi_fill0_wght400_grad0_opsz24_png.c)
+
+add_library(ui ${SOURCES})

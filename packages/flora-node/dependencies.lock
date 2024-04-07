@@ -1,0 +1,59 @@
+dependencies:
+  UncleRus/esp_idf_lib_helpers:
+    component_hash: e9729e1fa4db78daacd370956bd9764242d135d7aa013f3050b0953b0f192a8a
+    source:
+      git: https://github.com/UncleRus/esp-idf-lib.git
+      path: components/esp_idf_lib_helpers
+      type: git
+    version: c6da1853214c6979d21655b57b04cd039e6503d0
+  UncleRus/ultrasonic:
+    component_hash: 371beafde0b15673cea34de6e14baa7427e1fa86ae4887b178b1b05290eb606c
+    source:
+      git: https://github.com/UncleRus/esp-idf-lib.git
+      path: components/ultrasonic
+      type: git
+    version: c6da1853214c6979d21655b57b04cd039e6503d0
+  espressif/bh1750:
+    component_hash: c8cae6dca70fd5fdf5943ae37efbbea6cc41bcb784506e61ea301b3e94dce74b
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 1.0.3
+  espressif/button:
+    component_hash: 1f5297fe16f0ee988dbb14b6f4c91782fe2baf85025bb15cc1e0093edd3fb2ee
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 3.2.0
+  espressif/cmake_utilities:
+    component_hash: 351350613ceafba240b761b4ea991e0f231ac7a9f59a9ee901f751bddc0bb18f
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 0.5.3
+  espressif/esp_lvgl_port:
+    component_hash: b43dc04720d126cbfe14d53a84787e4c24b7bd7f15468e224c930ad3ffb32258
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 1.4.0
+  idf:
+    component_hash: null
+    source:
+      type: idf
+    version: 5.3.0
+  lvgl/lvgl:
+    component_hash: 948bff879a345149b83065535bbc4a026ce9f47498a22881e432a264b9098015
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 8.3.11
+  suda-morris/am2302_rmt:
+    component_hash: b46dd8c20dee72654e8ea4a43b16e8a93e984a6c10426392a4b8486fed50ca93
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 1.0.0
+manifest_hash: 6358a55f9045c0b70ebdbdf2f23321eeb118cc73cd8b2ad01dc25a6c8464bf4e
+target: esp32
+version: 1.0.0

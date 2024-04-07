@@ -1,0 +1,15 @@
+menu "Buzzer Configuration"
+
+    config BUZZER_GPIO
+        int "GPIO Pin"
+        default 17
+
+    config BUZZER_DEFAULT_DUTY
+        int "Default Duty (Volume)"
+        default 4096
+
+    config BUZZER_DEFAULT_FREQUENCY
+        int "Default Frequency"
+        default 4000
+
+endmenu

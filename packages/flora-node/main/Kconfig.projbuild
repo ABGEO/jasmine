@@ -1,0 +1,195 @@
+menu "Commutation Configuration"
+
+    config COMMUTATION_I2C_MASTER_SCL_IO
+        int "I2C Master SCL Pin"
+        default 18
+
+    config COMMUTATION_I2C_MASTER_SDA_IO
+        int "I2C Master SDA Pin"
+        default 19
+
+    config COMMUTATION_I2C_MASTER_CLK_SPEED
+        int "I2C Master CLK Speed"
+        default 100000
+
+endmenu
+
+menu "Peripheral Configuration"
+
+    menu "Soil Moisture"
+
+        config PERIPHERAL_SOIL_MOISTURE_ADC1_CH
+            int "ADC1 Channel"
+            default 6
+
+        config PERIPHERAL_SOIL_MOISTURE_MIN_THRESHOLD
+            int "Value Min Threshold"
+            default 900
+
+        config PERIPHERAL_SOIL_MOISTURE_MAX_THRESHOLD
+            int "Value Max Threshold"
+            default 2600
+
+    endmenu
+
+    menu "MQ135 (Air Quality)"
+
+        config PERIPHERAL_MQ135_ADC1_CH
+            int "ADC1 Channel"
+            default 7
+
+    endmenu
+
+    menu "AM2302 (Temperature and Humidity)"
+
+        config PERIPHERAL_AM2302_GPIO
+            int "GPIO Pin"
+            default 23
+
+    endmenu
+
+    menu "Ultrasonic"
+
+        config PERIPHERAL_ULTRASONIC_TRIGGER_GPIO
+            int "Trigger GPIO Pin"
+            default 22
+
+        config PERIPHERAL_ULTRASONIC_ECHO_GPIO
+            int "Echo GPIO Pin"
+            default 21
+
+        config PERIPHERAL_ULTRASONIC_MAX_DISTANCE
+            int "Max Distance (in CM)"
+            default 50
+
+    endmenu
+
+    menu "SSD1306 (Display)"
+
+        config PERIPHERAL_SSD1306_H_RES
+            int "Horizontal Resolution"
+            default 128
+
+        config PERIPHERAL_SSD1306_V_RES
+            int "Vertical Resolution"
+            default 64
+
+        config PERIPHERAL_SSD1306_I2C_ADDR
+            hex "i2c Address"
+            default 0x3C
+
+    endmenu
+
+endmenu
+
+menu "WiFi Configuration"
+
+    config ESP_WIFI_SSID
+        string "WiFi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
+
+    config ESP_WIFI_PASSWORD
+        string "WiFi Password"
+        default "mypassword"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
+
+    choice ESP_WIFI_SAE_MODE
+        prompt "WPA3 SAE mode selection"
+        default ESP_WPA3_SAE_PWE_BOTH
+        help
+            Select mode for SAE as Hunt and Peck, H2E or both.
+        config ESP_WPA3_SAE_PWE_HUNT_AND_PECK
+            bool "HUNT AND PECK"
+        config ESP_WPA3_SAE_PWE_HASH_TO_ELEMENT
+            bool "H2E"
+        config ESP_WPA3_SAE_PWE_BOTH
+            bool "BOTH"
+    endchoice
+
+    config ESP_WIFI_PW_ID
+        string "PASSWORD IDENTIFIER"
+        depends on  ESP_WPA3_SAE_PWE_HASH_TO_ELEMENT|| ESP_WPA3_SAE_PWE_BOTH
+        default ""
+        help
+            password identifier for SAE H2E
+
+    config ESP_MAXIMUM_RETRY
+        int "Maximum retry"
+        default 5
+        help
+            Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+
+    choice ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD
+        prompt "WiFi Scan auth mode threshold"
+        default ESP_WIFI_AUTH_WPA2_PSK
+        help
+            The weakest authmode to accept in the scan mode.
+            This value defaults to ESP_WIFI_AUTH_WPA2_PSK incase password is present and ESP_WIFI_AUTH_OPEN is used.
+            Please select ESP_WIFI_AUTH_WEP/ESP_WIFI_AUTH_WPA_PSK incase AP is operating in WEP/WPA mode.
+
+        config ESP_WIFI_AUTH_OPEN
+            bool "OPEN"
+        config ESP_WIFI_AUTH_WEP
+            bool "WEP"
+        config ESP_WIFI_AUTH_WPA_PSK
+            bool "WPA PSK"
+        config ESP_WIFI_AUTH_WPA2_PSK
+            bool "WPA2 PSK"
+        config ESP_WIFI_AUTH_WPA_WPA2_PSK
+            bool "WPA/WPA2 PSK"
+        config ESP_WIFI_AUTH_WPA3_PSK
+            bool "WPA3 PSK"
+        config ESP_WIFI_AUTH_WPA2_WPA3_PSK
+            bool "WPA2/WPA3 PSK"
+        config ESP_WIFI_AUTH_WAPI_PSK
+            bool "WAPI PSK"
+    endchoice
+
+endmenu
+
+
+menu "MQTT Configuration"
+
+    config MQTT_BROKER_URL
+        string "Broker URL"
+        default "mqtt://mqtt.abgeo.cloud:30506"
+        help
+            URL of the broker to connect to
+
+endmenu
+
+menu "Plant Configuration"
+
+    config PLANT_ID
+        string "Plant ID"
+
+endmenu
+
+menu "SNTP Configuration"
+
+    config SNTP_TIME_SERVER
+        string "SNTP server name"
+        default "pool.ntp.org"
+        help
+            Hostname of the main SNTP server.
+
+endmenu
+
+menu "Navigation Configuration"
+
+    config NAVIGATION_BTN_GPIO
+        int "Action Button GPIO Pin"
+        default 5
+
+    config NAVIGATION_BTN_LONG_PRESS_TIME
+        int "Trigger time(ms) for long press"
+        default 1000
+
+    config NAVIGATION_BTN_SHORT_PRESS_TIME
+        int "Trigger time(ms) for short press"
+        default 280
+
+endmenu
