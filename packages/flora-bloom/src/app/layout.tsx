@@ -1,39 +1,43 @@
-import type { Metadata } from 'next'
-import { ThemeProvider } from '@mui/material/styles';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import { ReactNode } from "react";
 
-import theme from '@/theme';
-import SessionWrapper from '@/components/SessionWrapper'
-import MainLayout from '@/components/layout/MainLayout';
-import AuthGuard from '@/components/guards/Auth';
+import type { Metadata } from "next";
+
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+
+import { AuthGuard } from "@/components/AuthGuard";
+import { SessionWrapper } from "@/components/SessionWrapper";
+
+import { theme } from "@/theme";
+
+import "@mantine/core/styles.css";
 
 export const metadata: Metadata = {
-  title: 'Jasmine Dashboard',
-  description: 'Jasmine Dashboard',
+  title: "Jasmine Dashboard",
+  description: "Jasmine Dashboard",
+};
+
+interface RootLayoutProps {
+  children: ReactNode;
 }
 
-interface LayoutProps {
-  children: React.ReactNode
-}
-
-export default function RootLayout({
-  children,
-}: LayoutProps) {
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
+      <head>
+        <ColorSchemeScript />
+        <link rel="shortcut icon" href="/favicon.svg" />
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
+        />
+      </head>
       <body>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <SessionWrapper>
-              <AuthGuard>
-                <MainLayout>
-                  {children}
-                </MainLayout>
-              </AuthGuard>
-            </SessionWrapper>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <MantineProvider theme={theme}>
+          <SessionWrapper>
+            <AuthGuard>{children}</AuthGuard>
+          </SessionWrapper>
+        </MantineProvider>
       </body>
     </html>
-  )
+  );
 }

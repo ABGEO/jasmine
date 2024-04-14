@@ -1,19 +1,23 @@
-'use client';
-
-import { ReactNode, useEffect, useState, useRef, useCallback } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
+"use client";
 
 import { AxiosRequestConfig } from "axios";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 
-import PageLoader from "@/components/PageLoader";
+import { signIn, signOut, useSession } from "next-auth/react";
+
+import { PageLoader } from "@/components/PageLoader";
+
 import { FloraBridgeClient } from "@/lib/http/client/flora-bridge";
-import { produceAccessTokenInterceptor, produceLogoutInterceptor } from "@/lib/http/client/interceptors";
+import {
+  produceAccessTokenInterceptor,
+  produceLogoutInterceptor,
+} from "@/lib/http/client/interceptors";
 
 interface AuthGuardProps {
   children: ReactNode;
 }
 
-function AuthGuard({ children }: AuthGuardProps) {
+export function AuthGuard({ children }: AuthGuardProps) {
   const [interceptor, setInterceptor] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const floraBridgeRequestInterceptorRef = useRef<number>(0);
@@ -25,7 +29,10 @@ function AuthGuard({ children }: AuthGuardProps) {
   }, []);
 
   useEffect(() => {
-    if (session?.error === "RefreshAccessTokenError" || status === "unauthenticated") {
+    if (
+      session?.error === "RefreshAccessTokenError" ||
+      status === "unauthenticated"
+    ) {
       signIn();
     }
 
@@ -63,10 +70,8 @@ function AuthGuard({ children }: AuthGuardProps) {
   }, [interceptor, logOutCallback]);
 
   if (loading) {
-    return <PageLoader size={128} sx={{ width: "100%", height: "100vh" }} />;
+    return <PageLoader size={128} />;
   }
 
   return children;
 }
-
-export default AuthGuard;

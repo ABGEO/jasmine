@@ -1,0 +1,33 @@
+{
+    "singleQuote": false,
+    "semi": true,
+    "tabWidth": 2,
+    "printWidth": 80,
+    "plugins": [
+        "@ianvs/prettier-plugin-sort-imports"
+    ],
+    "importOrder": [
+        "^react$",
+        "^react(.*)$",
+        "",
+        "^next$",
+        "^next/(.*)$",
+        "^next-(.*)$",
+        "",
+        "^@mantine/(.*)$",
+        "",
+        "^@tabler/(.*)$",
+        "",
+        "^@/components/(.*)$",
+        "",
+        "^[@/]",
+        "",
+        "(.*).module.css$",
+    ],
+    "importOrderParserPlugins": [
+        "typescript",
+        "jsx",
+        "decorators-legacy"
+    ],
+    "importOrderTypeScriptVersion": "5.0.0",
+}

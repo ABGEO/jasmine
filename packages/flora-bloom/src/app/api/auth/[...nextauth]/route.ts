@@ -1,8 +1,8 @@
-import NextAuth, { NextAuthOptions } from "next-auth"
-import { JWT } from "next-auth/jwt"
-import GoogleProvider from "next-auth/providers/google"
-
 import axios from "axios";
+
+import NextAuth, { NextAuthOptions } from "next-auth";
+import { JWT } from "next-auth/jwt";
+import GoogleProvider from "next-auth/providers/google";
 
 async function refreshAccessToken(token: JWT): Promise<JWT> {
   try {
@@ -48,13 +48,13 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-      authorization: { 
+      authorization: {
         params: {
           access_type: "offline",
           prompt: "consent",
           response_type: "code",
-          scope: "openid email profile"
-        }
+          scope: "openid email profile",
+        },
       },
     }),
   ],
@@ -107,9 +107,9 @@ export const authOptions: NextAuthOptions = {
 
       return baseUrl;
     },
-  }
-}
+  },
+};
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

@@ -1,0 +1,11 @@
+.footer {
+    display: flex;
+    margin-left: 300px;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: $mantine-breakpoint-sm) {
+        flex-direction: column;
+        margin-left: auto;
+    }
+}
