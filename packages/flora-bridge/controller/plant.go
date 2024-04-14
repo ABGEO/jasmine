@@ -51,3 +51,19 @@ func (ctrl *PlantController) Create(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, response)
 }
+
+func (ctrl *PlantController) GetAll(ctx *gin.Context) {
+	var response []dto.PlantOnResponse
+
+	plants, err := ctrl.plantService.GetAll()
+	if err != nil {
+		ctrl.logger.Error("unable to load plants", zap.Error(err))
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	_ = copier.Copy(&response, &plants)
+
+	ctx.JSON(http.StatusCreated, response)
+}

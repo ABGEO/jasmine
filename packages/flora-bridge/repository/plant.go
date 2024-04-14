@@ -20,3 +20,11 @@ func (repo *PlantRepository) Create(plant *model.Plant) error {
 		Create(plant).
 		Error
 }
+
+func (repo *PlantRepository) FindAll() ([]model.Plant, error) {
+	var plants []model.Plant
+
+	return plants, repo.db.
+		Find(&plants).
+		Error
+}

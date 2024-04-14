@@ -30,3 +30,12 @@ func (svc *PlantService) Create(entity *model.Plant) (*model.Plant, error) {
 
 	return entity, nil
 }
+
+func (svc *PlantService) GetAll() ([]model.Plant, error) {
+	plants, err := svc.plantRepo.FindAll()
+	if err != nil {
+		return nil, fmt.Errorf("unable to load Plants: %w", err)
+	}
+
+	return plants, nil
+}

@@ -34,5 +34,9 @@ func (route *PlantRoute) Register(engine *gin.Engine) {
 			"",
 			route.controller.Create,
 		)
+		group.GET(
+			"",
+			route.controller.GetAll,
+		)
 	}
 }
