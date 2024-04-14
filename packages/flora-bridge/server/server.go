@@ -8,6 +8,7 @@ import (
 
 	"github.com/abgeo/jasmine/packages/flora-bridge/config"
 	"github.com/abgeo/jasmine/packages/flora-bridge/route"
+	"github.com/gin-contrib/cors"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	healthcheck "github.com/tavsec/gin-healthcheck"
@@ -40,6 +41,13 @@ func New(
 
 	engine.Use(ginzap.Ginzap(logger, time.RFC3339, true))
 	engine.Use(ginzap.RecoveryWithZap(logger, true))
+
+	engine.Use(cors.New(cors.Config{
+		AllowOrigins:  conf.CORS.AllowOrigins,
+		AllowMethods:  conf.CORS.AllowMethods,
+		AllowHeaders:  conf.CORS.AllowHeaders,
+		ExposeHeaders: conf.CORS.ExposeHeaders,
+	}))
 
 	err := healthcheck.New(engine, healthcheckConfig.DefaultConfig(), healthCheckers)
 	if err != nil {

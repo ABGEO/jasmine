@@ -5,6 +5,7 @@ go 1.22.1
 require (
 	github.com/coreos/go-oidc/v3 v3.10.0
 	github.com/eclipse/paho.mqtt.golang v1.4.3
+	github.com/gin-contrib/cors v1.7.1
 	github.com/gin-contrib/zap v1.1.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/influxdata/influxdb-client-go/v2 v2.13.0

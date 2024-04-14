@@ -7,6 +7,13 @@ import (
 	"github.com/spf13/viper"
 )
 
+type CORSConfig struct {
+	AllowOrigins  []string `mapstructure:"CORS_ALLOW_ORIGINS" default:"[*]"`
+	AllowMethods  []string `mapstructure:"CORS_ALLOW_METHODS" default:"[GET,POST,DELETE,PATCH]"`
+	AllowHeaders  []string `mapstructure:"CORS_ALLOW_HEADERS" default:"[Origin,Content-Type,Authorization]"`
+	ExposeHeaders []string `mapstructure:"CORS_EXPOSE_HEADERS" default:"[Content-Length]"`
+}
+
 type ServerConfig struct {
 	ListenAddr     string   `mapstructure:"SERVER_ADDR" default:"0.0.0.0"`
 	Port           string   `mapstructure:"SERVER_PORT" default:"8080"`
@@ -43,6 +50,7 @@ type Config struct {
 	Env string `mapstructure:"ENV" default:"local"`
 
 	InfluxDB InfluxDBConfig `mapstructure:",squash"`
+	CORS     CORSConfig     `mapstructure:",squash"`
 	Server   ServerConfig   `mapstructure:",squash"`
 	MQTT     MQTTConfig     `mapstructure:",squash"`
 	Database DatabaseConfig `mapstructure:",squash"`
