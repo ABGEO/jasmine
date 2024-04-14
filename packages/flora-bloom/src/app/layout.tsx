@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from "@mantine/notifications";
 
 import { AuthGuard } from "@/components/AuthGuard";
 import { SessionWrapper } from "@/components/SessionWrapper";
@@ -11,6 +12,7 @@ import { SessionWrapper } from "@/components/SessionWrapper";
 import { theme } from "@/theme";
 
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 
 export const metadata: Metadata = {
   title: "Jasmine Dashboard",
@@ -34,6 +36,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
       <body>
         <MantineProvider theme={theme}>
+          <Notifications position="top-right" autoClose={5000} />
+
           <ModalsProvider>
             <SessionWrapper>
               <AuthGuard>{children}</AuthGuard>

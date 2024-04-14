@@ -1,11 +1,15 @@
 "use client";
 
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
-import { Grid, Group, Paper, Skeleton, Text } from "@mantine/core";
+import { Button, Grid, Group, Paper, Skeleton, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+
+import { IconPlus } from "@tabler/icons-react";
 
 import { PageContainer } from "@/components/PageContainer";
 import { PlantCard } from "@/components/PlantCard";
+import { PlantFormModal } from "@/components/PlantFormModal";
 
 import { PlantRepository } from "@/lib/repositories/plant";
 
@@ -29,9 +33,21 @@ function CardSkeleton(key: number) {
 
 export default function Dashboard() {
   const { data, isLoading } = useSWR("/plant", PlantRepository.getAll);
+  const [
+    createModalOpened,
+    { open: openCreateModal, close: closeCreateModal },
+  ] = useDisclosure(false);
 
   return (
     <PageContainer title="Plants">
+      <PlantFormModal
+        open={createModalOpened}
+        onClose={() => {
+          closeCreateModal();
+          void mutate("/plant");
+        }}
+      />
+
       <Grid pb="lg">
         {isLoading &&
           Array(8)
@@ -46,6 +62,7 @@ export default function Dashboard() {
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
+                  openCreateModal();
                 }}
               >
                 plant
@@ -55,13 +72,25 @@ export default function Dashboard() {
           </Paper>
         )}
 
-        {!isLoading &&
-          data &&
-          data.map((plant) => (
-            <Grid.Col key={plant.id} span={{ base: 12, md: 6, lg: 3 }}>
-              <PlantCard plant={plant} />
+        {!isLoading && data && data.length > 0 && (
+          <>
+            <Grid.Col span={{ base: 12 }}>
+              <Button
+                leftSection={<IconPlus size={16} />}
+                variant="filled"
+                onClick={openCreateModal}
+              >
+                Add Plant
+              </Button>
             </Grid.Col>
-          ))}
+
+            {data.map((plant) => (
+              <Grid.Col key={plant.id} span={{ base: 12, md: 6, lg: 3 }}>
+                <PlantCard plant={plant} />
+              </Grid.Col>
+            ))}
+          </>
+        )}
       </Grid>
     </PageContainer>
   );
