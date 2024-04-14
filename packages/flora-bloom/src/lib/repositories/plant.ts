@@ -1,12 +1,17 @@
 import { AxiosInstance } from "axios";
 
 import { FloraBridgeClient } from "@/lib/http/client/flora-bridge";
-import { PlantOnCreate, PlantOnCreateResponse } from "@/types/dtos/plant";
+import {
+  PlantOnCreate,
+  PlantOnCreateResponse,
+  PlantOnResponse,
+} from "@/types/dtos/plant";
 
 const routePreffix = "/plant";
 
 interface IPlantRepository {
   create: (payload: PlantOnCreate) => Promise<PlantOnCreateResponse>;
+  getAll: () => Promise<PlantOnResponse[]>;
 }
 
 function UseRepositoryFactory(http: AxiosInstance): IPlantRepository {
@@ -17,6 +22,10 @@ function UseRepositoryFactory(http: AxiosInstance): IPlantRepository {
           "Content-Type": "application/json",
         },
       });
+      return response.data;
+    },
+    getAll: async () => {
+      const response = await http.get(`${routePreffix}`);
       return response.data;
     },
   };

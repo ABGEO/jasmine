@@ -1,12 +1,17 @@
-type PlantOnCreate = {
+import Plant from "@/app/(dashboard)/plant/[id]/page";
+
+type Plant = {
   pid: string;
 };
 
-type PlantOnCreateResponse = {
+type PlantOnCreate = Plant;
+
+type PlantOnResponse = Plant & {
   id: number;
-  pid: string;
   createdAt: string;
   updatedAt: string;
 };
 
-export type { PlantOnCreate, PlantOnCreateResponse };
+type PlantOnCreateResponse = PlantOnResponse;
+
+export type { Plant, PlantOnCreate, PlantOnResponse, PlantOnCreateResponse };
