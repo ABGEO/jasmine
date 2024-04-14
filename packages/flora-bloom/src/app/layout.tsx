@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
 
 import { AuthGuard } from "@/components/AuthGuard";
 import { SessionWrapper } from "@/components/SessionWrapper";
@@ -33,9 +34,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <SessionWrapper>
-            <AuthGuard>{children}</AuthGuard>
-          </SessionWrapper>
+          <ModalsProvider>
+            <SessionWrapper>
+              <AuthGuard>{children}</AuthGuard>
+            </SessionWrapper>
+          </ModalsProvider>
         </MantineProvider>
       </body>
     </html>

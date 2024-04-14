@@ -9,9 +9,9 @@ import { PlantCard } from "@/components/PlantCard";
 
 import { PlantRepository } from "@/lib/repositories/plant";
 
-function CardSkeleton() {
+function CardSkeleton(key: number) {
   return (
-    <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+    <Grid.Col key={key} span={{ base: 12, md: 6, lg: 3 }}>
       <Skeleton height={100} mb="xl" />
 
       <Skeleton height={20} width="30%" radius="xl" />
@@ -36,7 +36,7 @@ export default function Dashboard() {
         {isLoading &&
           Array(8)
             .fill(0)
-            .map((_, __) => CardSkeleton())}
+            .map((_, index) => CardSkeleton(index))}
 
         {!isLoading && (!data || data.length === 0) && (
           <Paper shadow="xs" p="xl" w="100%">
