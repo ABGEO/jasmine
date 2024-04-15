@@ -38,13 +38,15 @@ export default function Dashboard() {
     { open: openCreateModal, close: closeCreateModal },
   ] = useDisclosure(false);
 
+  const mutatePlants = () => mutate("/plant");
+
   return (
     <PageContainer title="Plants">
       <PlantFormModal
         open={createModalOpened}
         onClose={() => {
           closeCreateModal();
-          void mutate("/plant");
+          mutate("/plant");
         }}
       />
 
@@ -86,7 +88,11 @@ export default function Dashboard() {
 
             {data.map((plant) => (
               <Grid.Col key={plant.id} span={{ base: 12, md: 6, lg: 3 }}>
-                <PlantCard plant={plant} />
+                <PlantCard
+                  plant={plant}
+                  onDelete={mutatePlants}
+                  onUpdate={mutatePlants}
+                />
               </Grid.Col>
             ))}
           </>

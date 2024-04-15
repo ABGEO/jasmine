@@ -9,10 +9,10 @@ import { notifications } from "@mantine/notifications";
 import { IconCheck, IconExclamationMark } from "@tabler/icons-react";
 
 import { PlantRepository } from "@/lib/repositories/plant";
-import { PlantOnCreateResponse } from "@/types/dtos/plant";
+import { PlantOnResponse } from "@/types/dtos/plant";
 
 interface PlantFormModalProps {
-  plant?: PlantOnCreateResponse;
+  plant?: PlantOnResponse;
   open: boolean;
   onClose: () => void;
 }
@@ -22,7 +22,7 @@ export function PlantFormModal({ plant, open, onClose }: PlantFormModalProps) {
 
   const form = useForm({
     mode: "uncontrolled",
-    initialValues: { pid: "" },
+    initialValues: { pid: plant?.pid ?? "" },
 
     validate: {
       pid: (value) => (value.length <= 0 ? "Pid must not be empty" : null),
@@ -46,8 +46,11 @@ export function PlantFormModal({ plant, open, onClose }: PlantFormModalProps) {
   };
 
   const handleSubmit = (values: typeof form.values) => {
-    // @todo: call create or edit method conditionally.
-    PlantRepository.create({ pid: values.pid })
+    const request = plant
+      ? PlantRepository.update({ id: plant?.id ?? 0, pid: values.pid })
+      : PlantRepository.create({ pid: values.pid });
+
+    request
       .then(() => {
         if (plant == null) {
           notifications.show({

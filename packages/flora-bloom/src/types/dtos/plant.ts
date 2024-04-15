@@ -6,12 +6,14 @@ type Plant = {
 
 type PlantOnCreate = Plant;
 
+type PlantOnUpdate = Plant & {
+  id: number;
+};
+
 type PlantOnResponse = Plant & {
   id: number;
   createdAt: string;
   updatedAt: string;
 };
 
-type PlantOnCreateResponse = PlantOnResponse;
-
-export type { Plant, PlantOnCreate, PlantOnResponse, PlantOnCreateResponse };
+export type { Plant, PlantOnCreate, PlantOnUpdate, PlantOnResponse };
