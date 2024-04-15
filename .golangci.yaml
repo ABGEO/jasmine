@@ -31,6 +31,7 @@ linters-settings:
       # Custom Sigs.
       - .Marshal(
       - .AutoMigrate(
+      - repository.
 
 linters:
   enable-all: true

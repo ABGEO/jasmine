@@ -38,5 +38,17 @@ func (route *PlantRoute) Register(engine *gin.Engine) {
 			"",
 			route.controller.GetAll,
 		)
+		group.GET(
+			"/:id",
+			route.controller.GetSingle,
+		)
+		group.PATCH(
+			"",
+			route.controller.Update,
+		)
+		group.DELETE(
+			"/:id",
+			route.controller.Delete,
+		)
 	}
 }

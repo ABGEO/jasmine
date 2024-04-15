@@ -12,13 +12,14 @@ type PlantOnCreate struct {
 	Plant
 }
 
+type PlantOnUpdate struct {
+	Plant
+	ID uint `json:"id" binding:"required"`
+}
+
 type PlantOnResponse struct {
 	Plant
 	ID        uint      `json:"id" binding:"required"`
 	CreatedAt time.Time `json:"createdAt" binding:"required"`
 	UpdatedAt time.Time `json:"updatedAt" binding:"required"`
-}
-
-type PlantOnCreateResponse struct {
-	PlantOnResponse
 }
