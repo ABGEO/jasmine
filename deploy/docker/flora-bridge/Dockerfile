@@ -17,10 +17,15 @@ LABEL org.opencontainers.image.source="https://github.com/ABGEO/jasmine/tree/mai
 
 WORKDIR /app
 
+RUN addgroup --system --gid 1001 flora-bridge \
+    && adduser --system --uid 1001 flora-bridge
+
+COPY --from=builder --chown=flora-bridge:flora-bridge /app/flora-bridge .
+# @todo: remove this once Viper is fixed.
+COPY --chown=flora-bridge:flora-bridge packages/flora-bridge/example.env .env
+
 EXPOSE 8080
 
-COPY --from=builder /app/flora-bridge .
-# @todo: remove this once Viper is fixed.
-COPY packages/flora-bridge/example.env packages/flora-bridge/.env
+USER flora-bridge
 
 ENTRYPOINT ["/app/flora-bridge"]
