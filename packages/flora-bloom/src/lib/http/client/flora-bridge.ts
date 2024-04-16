@@ -1,13 +1,12 @@
-import axios from "axios";
+import axios, { CustomAxiosInstance } from "axios";
 
 import { getSession } from "next-auth/react";
 
 import { produceAccessTokenInterceptor } from "@/lib/http/client/interceptors";
-import { CustomAxiosInstance } from "@/types/declarations/axios";
 
 const FloraBridgeClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_FLORA_BRIDGE_URL,
-}) as unknown as CustomAxiosInstance;
+}) as CustomAxiosInstance;
 
 let IS_REFRESHING = false;
 

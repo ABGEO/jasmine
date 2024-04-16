@@ -1,6 +1,6 @@
 "use client";
 
-import { AxiosRequestConfig } from "axios";
+import { AxiosResponse } from "axios";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -57,7 +57,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
     if (interceptor) {
       floraBridgeResponseInterceptorRef.current =
         FloraBridgeClient.interceptors.response.use(
-          (req: AxiosRequestConfig) => req,
+          (res: AxiosResponse) => res,
           produceLogoutInterceptor(logOutCallback),
         );
     }

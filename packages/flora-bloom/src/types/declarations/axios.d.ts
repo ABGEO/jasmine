@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 
 declare module "axios" {
-  class CustomAxiosInstance extends AxiosInstance {
+  interface CustomAxiosInstance extends AxiosInstance {
     interceptors: {
       request: {
         handlers?: InternalAxiosRequestConfig<unknown>[];
