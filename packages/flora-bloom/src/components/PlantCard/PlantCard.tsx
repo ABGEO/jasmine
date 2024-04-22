@@ -73,21 +73,26 @@ export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
 
   return (
     <>
-      <PlantFormModal
-        open={updateModalOpened}
-        plant={plant}
-        onClose={() => {
-          closeupdateModal();
-          if (onUpdate) {
-            onUpdate();
-          }
-        }}
-      />
+      {updateModalOpened && (
+        <PlantFormModal
+          plant={plant}
+          onClose={() => {
+            closeupdateModal();
+            if (onUpdate) {
+              onUpdate();
+            }
+          }}
+        />
+      )}
 
       <Card withBorder radius="md" p="md" className={classes.card}>
         <Card.Section>
           <Image
-            src={`https://placehold.co/1920x1080/png?text=${plant.pid}`}
+            src={
+              plant.avatar.key == ""
+                ? "/assets/no-image.png"
+                : `${process.env.NEXT_PUBLIC_S3_URL}/${plant.avatar.key}`
+            }
             alt={plant.pid}
             width={0}
             height={0}

@@ -1,19 +1,23 @@
-import Plant from "@/app/(dashboard)/plant/[id]/page";
+import { FileOnResponse } from "./file";
 
 type Plant = {
   pid: string;
 };
 
-type PlantOnCreate = Plant;
+type PlantOnCreate = Plant & {
+  avatarId?: number;
+};
 
 type PlantOnUpdate = Plant & {
   id: number;
+  avatarId?: number;
 };
 
 type PlantOnResponse = Plant & {
   id: number;
   createdAt: string;
   updatedAt: string;
+  avatar: FileOnResponse;
 };
 
 export type { Plant, PlantOnCreate, PlantOnUpdate, PlantOnResponse };

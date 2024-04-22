@@ -42,13 +42,14 @@ export default function Dashboard() {
 
   return (
     <PageContainer title="Plants">
-      <PlantFormModal
-        open={createModalOpened}
-        onClose={() => {
-          closeCreateModal();
-          mutate("/plant");
-        }}
-      />
+      {createModalOpened && (
+        <PlantFormModal
+          onClose={() => {
+            closeCreateModal();
+            mutate("/plant");
+          }}
+        />
+      )}
 
       <Grid pb="lg">
         {isLoading &&

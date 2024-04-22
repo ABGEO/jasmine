@@ -1,0 +1,15 @@
+.dropzoneWrapper {
+    position: relative;
+}
+
+.clearAction {
+    z-index: 100;
+    position: absolute;
+    top: 16px;
+    right: 17px;
+    border-radius: 0 0 0 10px;
+}
+
+.clearIcon {
+    color: var(--mantine-color-red-6);
+}
