@@ -27,6 +27,7 @@ func RegisterRoutes(engine *gin.Engine, routes ...IRoute) {
 
 func Provide() fx.Option {
 	return fx.Provide(
+		AsRoute(NewFileRoute),
 		AsRoute(NewPlantRoute),
 	)
 }

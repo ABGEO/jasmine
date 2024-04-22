@@ -17,12 +17,12 @@ type PlantService struct {
 }
 
 func NewPlantService(
-	plantRepo *repository.PlantRepository,
 	logger *zap.Logger,
+	plantRepo *repository.PlantRepository,
 ) *PlantService {
 	return &PlantService{
-		plantRepo: plantRepo,
 		logger:    logger,
+		plantRepo: plantRepo,
 	}
 }
 
@@ -60,6 +60,12 @@ func (svc *PlantService) Update(updates *model.Plant) (*model.Plant, error) {
 	}
 
 	plant.Pid = updates.Pid
+
+	if updates.AvatarID != plant.AvatarID {
+		if err = svc.plantRepo.UpdateAvatar(plant, updates.AvatarID); err != nil {
+			return nil, fmt.Errorf("unable to update Plant Avatar: %w", err)
+		}
+	}
 
 	if err = svc.plantRepo.Update(plant); err != nil {
 		return nil, fmt.Errorf("unable to update Plant: %w", err)

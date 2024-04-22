@@ -46,6 +46,14 @@ type OIDCConfig struct {
 	ClientID string `mapstructure:"OIDC_CLIENT_ID"`
 }
 
+type S3Config struct {
+	Endpoint    string `mapstructure:"S3_ENDPOINT"`
+	Region      string `mapstructure:"S3_REGION"`
+	AccessKeyID string `mapstructure:"S3_ACCESS_KEY_ID"`
+	SecretKey   string `mapstructure:"S3_SECRET_KEY"`
+	Bucket      string `mapstructure:"S3_BUCKET"`
+}
+
 type Config struct {
 	Env string `mapstructure:"ENV" default:"local"`
 
@@ -55,6 +63,7 @@ type Config struct {
 	MQTT     MQTTConfig     `mapstructure:",squash"`
 	Database DatabaseConfig `mapstructure:",squash"`
 	OIDC     OIDCConfig     `mapstructure:",squash"`
+	S3       S3Config       `mapstructure:",squash"`
 }
 
 func New() (*Config, error) {

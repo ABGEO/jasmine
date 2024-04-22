@@ -36,6 +36,7 @@ func Migrate(logger *zap.Logger, migrators ...IMigrator) {
 
 func Provide() fx.Option {
 	return fx.Provide(
+		AsMigrator(NewFileMigrator),
 		AsMigrator(NewPlantMigrator),
 	)
 }
