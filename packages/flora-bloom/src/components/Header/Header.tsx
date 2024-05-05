@@ -1,15 +1,11 @@
 "use client";
 
-import axios from "axios";
 import { ReactNode } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
 
-import { ActionIcon, Box, Drawer, Flex, Stack } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-
-import { IconSettings } from "@tabler/icons-react";
+import { Box, Flex } from "@mantine/core";
 
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
@@ -20,11 +16,6 @@ interface Props {
 }
 
 export function Header({ burger }: Props) {
-  const [settingsOpened, { close: settingsClose, open: settingsOpen }] =
-    useDisclosure(false);
-
-  axios.AxiosError;
-
   return (
     <header className={classes.header}>
       {burger && burger}
@@ -45,21 +36,7 @@ export function Header({ burger }: Props) {
 
       <Box style={{ flex: 1 }} />
 
-      <ActionIcon onClick={settingsOpen} variant="subtle">
-        <IconSettings size="1.25rem" />
-      </ActionIcon>
-
-      <Drawer
-        opened={settingsOpened}
-        onClose={settingsClose}
-        title="Settings"
-        position="right"
-        transitionProps={{ duration: 0 }}
-      >
-        <Stack gap="lg">
-          <ThemeSwitcher />
-        </Stack>
-      </Drawer>
+      <ThemeSwitcher />
     </header>
   );
 }

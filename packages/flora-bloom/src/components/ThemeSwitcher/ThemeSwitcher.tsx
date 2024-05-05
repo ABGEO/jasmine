@@ -1,26 +1,29 @@
 import {
-  Group,
-  MantineColorScheme,
-  Radio,
+  ActionIcon,
+  useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
 
+import { IconMoon, IconSun } from "@tabler/icons-react";
+
+import classes from "./ThemeSwitcher.module.css";
+
 export function ThemeSwitcher() {
-  const { colorScheme, setColorScheme } = useMantineColorScheme();
+  const { setColorScheme } = useMantineColorScheme();
+  const computedColorScheme = useComputedColorScheme("light", {
+    getInitialValueInEffect: true,
+  });
 
   return (
-    <Radio.Group
-      value={colorScheme}
-      onChange={(value) => {
-        setColorScheme(value as MantineColorScheme);
-      }}
-      name="theme"
-      label="Theme Mode"
+    <ActionIcon
+      onClick={() =>
+        setColorScheme(computedColorScheme === "light" ? "dark" : "light")
+      }
+      variant="subtle"
+      aria-label="Toggle color scheme"
     >
-      <Group mt="sm">
-        <Radio value="light" label="Light" />
-        <Radio value="dark" label="Dark" />
-      </Group>
-    </Radio.Group>
+      <IconSun className={classes.light} size="1.25rem" />
+      <IconMoon className={classes.dark} size="1.25rem" />
+    </ActionIcon>
   );
 }
