@@ -1,6 +1,5 @@
 .navbar {
     padding-top: var(--mantine-spacing-md);
-    ;
 }
 
 .navbarMain {
@@ -33,14 +32,13 @@
     }
 
     &[data-active] {
-
         &,
         &:hover {
-            background-color: var(--mantine-color-blue-light);
-            color: var(--mantine-color-blue-light-color);
+            background-color: var(--mantine-color-jasmine-light);
+            color: var(--mantine-color-jasmine-light-color);
 
             .linkIcon {
-                color: var(--mantine-color-blue-light-color);
+                color: var(--mantine-color-jasmine-light-color);
             }
         }
     }
