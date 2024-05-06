@@ -9,6 +9,7 @@ import (
 	"io"
 	"mime/multipart"
 
+	"github.com/adrium/goheif"
 	"github.com/disintegration/imaging"
 )
 
@@ -45,6 +46,8 @@ func PNGConverterFilter(file *multipart.FileHeader, fileHandler multipart.File) 
 	switch file.Header.Get("Content-Type") {
 	case "image/jpeg":
 		return convertJPEGtoPNG(file, fileHandler)
+	case "image/heic":
+		return convertHEICtoPNG(file, fileHandler)
 	default:
 		return fileHandler, nil
 	}
@@ -54,6 +57,23 @@ func convertJPEGtoPNG(file *multipart.FileHeader, fileHandler multipart.File) (m
 	img, err := jpeg.Decode(fileHandler)
 	if err != nil {
 		return nil, fmt.Errorf("unable to decode JPEG: %w", err)
+	}
+
+	reader, err := encodeImageToPNGReader(img)
+	if err != nil {
+		return nil, fmt.Errorf("unable to encode image: %w", err)
+	}
+
+	file.Header.Set("Content-Type", "image/png")
+	file.Size = reader.Size()
+
+	return reader, nil
+}
+
+func convertHEICtoPNG(file *multipart.FileHeader, fileHandler multipart.File) (multipart.File, error) {
+	img, err := goheif.Decode(fileHandler)
+	if err != nil {
+		return nil, fmt.Errorf("unable to decode HEIC: %w", err)
 	}
 
 	reader, err := encodeImageToPNGReader(img)

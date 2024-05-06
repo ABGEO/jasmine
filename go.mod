@@ -3,6 +3,7 @@ module github.com/abgeo/jasmine
 go 1.22.1
 
 require (
+	github.com/adrium/goheif v0.0.0-20230113233934-ca402e77a786
 	github.com/aws/aws-sdk-go v1.51.23
 	github.com/coreos/go-oidc/v3 v3.10.0
 	github.com/disintegration/imaging v1.6.2
@@ -62,6 +63,7 @@ require (
 	github.com/oapi-codegen/runtime v1.0.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.0 // indirect
 	github.com/redis/go-redis/v9 v9.5.1 // indirect
+	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect

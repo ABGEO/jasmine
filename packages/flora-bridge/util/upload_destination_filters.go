@@ -30,6 +30,7 @@ func ImageMIMETypeFilter(file *multipart.FileHeader) error {
 	allowedTypes := []string{
 		"image/jpeg",
 		"image/png",
+		"image/heic",
 	}
 
 	MIMEType := file.Header.Get("Content-Type")
