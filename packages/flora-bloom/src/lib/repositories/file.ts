@@ -16,6 +16,10 @@ interface IFileRepository {
 function UseRepositoryFactory(http: AxiosInstance): IFileRepository {
   return {
     upload: async (file: Blob, destination?: Destination) => {
+      if (file.type === "image/heic") {
+        file = file.slice(0, file.size, "image/heic");
+      }
+
       const data = new FormData();
       data.append("file", file);
 
@@ -25,11 +29,7 @@ function UseRepositoryFactory(http: AxiosInstance): IFileRepository {
         url += `?destination=${destination}`;
       }
 
-      const response = await http.post(url, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await http.post(url, data);
       return response.data;
     },
   };

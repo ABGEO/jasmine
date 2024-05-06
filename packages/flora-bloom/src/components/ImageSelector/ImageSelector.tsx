@@ -75,8 +75,8 @@ export function ImageSelector({
       )}
 
       <Dropzone
-        accept={[MIME_TYPES.png, MIME_TYPES.jpeg]}
-        maxSize={3 * 1024 ** 2}
+        accept={[MIME_TYPES.png, MIME_TYPES.jpeg, MIME_TYPES.heic]}
+        maxSize={5 * 1024 ** 2}
         multiple={false}
         onDrop={handleDrop}
         onReject={handleReject}
