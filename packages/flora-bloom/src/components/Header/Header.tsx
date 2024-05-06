@@ -1,12 +1,10 @@
-"use client";
-
 import { ReactNode } from "react";
 
-import Image from "next/image";
 import Link from "next/link";
 
 import { Box, Flex } from "@mantine/core";
 
+import { Logo } from "@/components/Logo";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
 import classes from "./Header.module.css";
@@ -25,12 +23,7 @@ export function Header({ burger }: Props) {
           style={{ textDecoration: "none" }}
           className={classes.heading}
         >
-          <Image
-            src="/assets/logo.svg"
-            height={35}
-            width={123}
-            alt="Jasmine Flora Bloom Logo"
-          />
+          <Logo size={40} />
         </Link>
       </Flex>
 
