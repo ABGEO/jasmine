@@ -59,7 +59,22 @@ func (svc *PlantService) Update(updates *model.Plant) (*model.Plant, error) {
 		return nil, err
 	}
 
+	// @todo: refactor!
 	plant.Pid = updates.Pid
+	plant.Birthday = updates.Birthday
+	plant.ScientificName = updates.ScientificName
+	plant.Type = updates.Type
+	plant.Genus = updates.Genus
+	plant.Family = updates.Family
+	plant.BloomTime = updates.BloomTime
+	plant.BloomDescription = updates.BloomDescription
+	plant.Sunlight = updates.Sunlight
+	plant.Watering = updates.Watering
+	plant.SoilType = updates.SoilType
+	plant.Flowers = updates.Flowers
+	plant.Fruit = updates.Fruit
+	plant.Leaves = updates.Leaves
+	plant.Notes = updates.Notes
 
 	if updates.AvatarID != plant.AvatarID {
 		if err = svc.plantRepo.UpdateAvatar(plant, updates.AvatarID); err != nil {
