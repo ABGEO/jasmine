@@ -1,8 +1,9 @@
+import dayjs from "dayjs";
+
 import Image from "next/image";
 import Link from "next/link";
 
 import { ActionIcon, Button, Card, Group, Text } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 
@@ -13,8 +14,6 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 
-import { PlantFormModal } from "@/components/PlantFormModal";
-
 import { PlantRepository } from "@/lib/repositories/plant";
 import { PlantOnResponse } from "@/types/dtos/plant";
 
@@ -23,15 +22,9 @@ import classes from "./PlantCard.module.css";
 interface PlantCardProps {
   plant: PlantOnResponse;
   onDelete?: () => void;
-  onUpdate?: () => void;
 }
 
-export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
-  const [
-    updateModalOpened,
-    { open: openupdateModal, close: closeupdateModal },
-  ] = useDisclosure(false);
-
+export function PlantCard({ plant, onDelete }: PlantCardProps) {
   const deleteWebsite = () => {
     PlantRepository.delete(plant.id)
       .then(() => {
@@ -71,20 +64,37 @@ export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
       onConfirm: deleteWebsite,
     });
 
+  const calculatePlantAge = () => {
+    const birthDate = dayjs(plant.birthday);
+    const currentDate = dayjs();
+
+    const ageInYears = currentDate.diff(birthDate, "year");
+    const adjustedBirthDate = birthDate.add(ageInYears, "year");
+    const ageInMonths = currentDate.diff(adjustedBirthDate, "month");
+    const adjustedBirthDateWithMonths = adjustedBirthDate.add(
+      ageInMonths,
+      "month",
+    );
+    const ageInDays = currentDate.diff(adjustedBirthDateWithMonths, "day");
+
+    const items = [];
+    if (ageInYears !== 0) {
+      items.push(`${ageInYears} ${ageInYears === 1 ? "year" : "years"}`);
+    }
+
+    if (ageInMonths !== 0) {
+      items.push(`${ageInMonths} ${ageInMonths === 1 ? "month" : "months"}`);
+    }
+
+    if (ageInDays !== 0) {
+      items.push(`${ageInDays} ${ageInDays === 1 ? "day" : "days"}`);
+    }
+
+    return `${items.join(", ")} (${birthDate.format("DD/MM/YYYY")})`;
+  };
+
   return (
     <>
-      {updateModalOpened && (
-        <PlantFormModal
-          plant={plant}
-          onClose={() => {
-            closeupdateModal();
-            if (onUpdate) {
-              onUpdate();
-            }
-          }}
-        />
-      )}
-
       <Card withBorder radius="md" p="md" className={classes.card}>
         <Card.Section>
           <Image
@@ -104,17 +114,20 @@ export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
         <Card.Section className={classes.section} mt="md">
           <Group justify="apart">
             <Text fz="lg" fw={500}>
-              {plant.pid}
+              {plant.pid} ({plant.scientificName})
             </Text>
           </Group>
           <Text fz="sm" mt="xs">
-            description
+            {plant.genus}, {plant.family}
           </Text>
         </Card.Section>
 
         <Card.Section className={classes.section}>
-          <Text mt="md" className={classes.label} c="dimmed">
-            plant details
+          <Text mt="md" c="dimmed">
+            Age: <strong>{calculatePlantAge()}</strong>
+          </Text>
+          <Text c="dimmed">
+            Type: <strong>{plant.type}</strong>
           </Text>
         </Card.Section>
 
@@ -128,10 +141,11 @@ export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
             Show details
           </Button>
           <ActionIcon
+            component={Link}
+            href={`/plant/${plant.id}/edit`}
             variant="default"
             radius="md"
             size={36}
-            onClick={openupdateModal}
           >
             <IconEdit className={classes.edit} stroke={1.5} />
           </ActionIcon>

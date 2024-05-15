@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
 
+import Link from "next/link";
+
 import {
   Anchor,
   Breadcrumbs,
   Container,
   ContainerProps,
-  Space,
   Title,
 } from "@mantine/core";
 
@@ -24,18 +25,18 @@ export function PageContainer({
   return (
     <Container px={0} fluid={fluid}>
       {items && items.length > 0 ? (
-        <Breadcrumbs>
+        <Breadcrumbs mb="md">
           {items.map((item) => (
-            <Anchor key={item.label} href={item.href}>
+            <Anchor key={item.label} component={Link} href={item.href}>
               {item.label}
             </Anchor>
           ))}
         </Breadcrumbs>
       ) : null}
 
-      <Title order={4}>{title}</Title>
-
-      <Space h="lg" />
+      <Title order={3} mb="md">
+        {title}
+      </Title>
 
       {children}
     </Container>

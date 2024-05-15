@@ -2,14 +2,14 @@
 
 import useSWR, { mutate } from "swr";
 
+import Link from "next/link";
+
 import { Button, Grid, Group, Paper, Skeleton, Text } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 
 import { IconPlus } from "@tabler/icons-react";
 
 import { PageContainer } from "@/components/PageContainer";
 import { PlantCard } from "@/components/PlantCard";
-import { PlantFormModal } from "@/components/PlantFormModal";
 
 import { PlantRepository } from "@/lib/repositories/plant";
 
@@ -33,24 +33,11 @@ function CardSkeleton(key: number) {
 
 export default function Dashboard() {
   const { data, isLoading } = useSWR("/plant", PlantRepository.getAll);
-  const [
-    createModalOpened,
-    { open: openCreateModal, close: closeCreateModal },
-  ] = useDisclosure(false);
 
   const mutatePlants = () => mutate("/plant");
 
   return (
     <PageContainer title="Plants">
-      {createModalOpened && (
-        <PlantFormModal
-          onClose={() => {
-            closeCreateModal();
-            mutate("/plant");
-          }}
-        />
-      )}
-
       <Grid pb="lg">
         {isLoading &&
           Array(8)
@@ -61,16 +48,7 @@ export default function Dashboard() {
           <Paper shadow="xs" p="xl" w="100%">
             <Text ta="center">
               Looks like there&apos;s no flora in this space. Why not{" "}
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  openCreateModal();
-                }}
-              >
-                plant
-              </a>{" "}
-              something new?
+              <Link href="/plant/create">plant</Link> something new?
             </Text>
           </Paper>
         )}
@@ -79,9 +57,10 @@ export default function Dashboard() {
           <>
             <Grid.Col span={{ base: 12 }}>
               <Button
+                component={Link}
+                href={"/plant/create"}
                 leftSection={<IconPlus size={16} />}
                 variant="filled"
-                onClick={openCreateModal}
               >
                 Add Plant
               </Button>
@@ -89,11 +68,7 @@ export default function Dashboard() {
 
             {data.map((plant) => (
               <Grid.Col key={plant.id} span={{ base: 12, md: 6, lg: 3 }}>
-                <PlantCard
-                  plant={plant}
-                  onDelete={mutatePlants}
-                  onUpdate={mutatePlants}
-                />
+                <PlantCard plant={plant} onDelete={mutatePlants} />
               </Grid.Col>
             ))}
           </>

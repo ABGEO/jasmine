@@ -18,9 +18,3 @@
 .delete {
     color: var(--mantine-color-red-6);
 }
-
-.label {
-    text-transform: uppercase;
-    font-size: var(--mantine-font-size-xs);
-    font-weight: 700;
-}

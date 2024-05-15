@@ -14,6 +14,9 @@ import { theme } from "@/theme";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/dropzone/styles.css";
+import "@mantine/dates/styles.css";
+
+import { DatesProvider } from "@mantine/dates";
 
 export const metadata: Metadata = {
   title: "Jasmine Dashboard",
@@ -40,9 +43,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <Notifications position="top-right" autoClose={5000} />
 
           <ModalsProvider>
-            <SessionWrapper>
-              <AuthGuard>{children}</AuthGuard>
-            </SessionWrapper>
+            <DatesProvider settings={{ timezone: "Asia/Tbilisi" }}>
+              <SessionWrapper>
+                <AuthGuard>{children}</AuthGuard>
+              </SessionWrapper>
+            </DatesProvider>
           </ModalsProvider>
         </MantineProvider>
       </body>
