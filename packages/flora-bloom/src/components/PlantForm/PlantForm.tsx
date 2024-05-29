@@ -290,6 +290,12 @@ export function PlantForm({ plant }: PlantFormProps) {
   const prevStep = () =>
     setWizardIndex((current) => (current > 0 ? current - 1 : current));
 
+  const setWizardIndexWithValidation = (index: number) => {
+    if (!form.validate().hasErrors) {
+      setWizardIndex(index);
+    }
+  };
+
   return (
     <Box pos="relative">
       <LoadingOverlay
@@ -311,6 +317,7 @@ export function PlantForm({ plant }: PlantFormProps) {
           size="md"
           orientation={isMobile ? "vertical" : "horizontal"}
           active={wizardIndex}
+          onStepClick={setWizardIndexWithValidation}
         >
           <Stepper.Step
             label="Step 1"
